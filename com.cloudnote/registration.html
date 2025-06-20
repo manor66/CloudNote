@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .register-container {
+            width: 480px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            padding: 40px;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            background: #f1f2f6;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        
+        .back-btn:hover {
+            background: #dfe4ea;
+            transform: translateX(-3px);
+        }
+        
+        .back-btn i {
+            color: #2d3436;
+            font-size: 18px;
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+        
+        .register-header h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .register-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #27ae60;
+            border-radius: 2px;
+        }
+        
+        .register-header p {
+            color: #7f8c8d;
+            margin-top: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3436;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            border-color: #27ae60;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+            outline: none;
+        }
+        
+        .password-strength {
+            height: 5px;
+            background: #f1f2f6;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .password-strength-fill {
+            height: 100%;
+            width: 0%;
+            background: #e74c3c;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .captcha-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .captcha-input {
+            flex: 1;
+        }
+        
+        .captcha-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .captcha-btn:hover {
+            background: #219653;
+        }
+        
+        .captcha-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0 25px;
+        }
+        
+        .terms input {
+            margin-top: 4px;
+            margin-right: 10px;
+        }
+        
+        .terms label {
+            color: #7f8c8d;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .terms a {
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        
+        .register-btn:hover {
+            background: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            font-size: 15px;
+        }
+        
+        .login-link a {
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .register-container {
+                width: 100%;
+                max-width: 500px;
+                padding: 30px 25px;
+            }
+            
+            .back-btn {
+                top: 15px;
+                left: 20px;
+            }
+            
+            .register-header h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <button class="back-btn" id="backToLogin">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        
+        <div class="register-header">
+            <h1>用户注册</h1>
+            <p>请填写以下信息完成账户注册</p>
+        </div>
+        
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="设置您的用户名" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">电子邮箱</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="输入您的电子邮箱" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">密码</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="设置登录密码（至少8位）" required minlength="8">
+                </div>
+                <div class="password-strength">
+                    <div class="password-strength-fill" id="passwordStrength"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">确认密码</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="再次输入密码" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="captcha">验证码</label>
+                <div class="captcha-container">
+                    <div class="input-with-icon captcha-input">
+                        <i class="fas fa-shield-alt"></i>
+                        <input type="text" id="captcha" name="captcha" placeholder="输入6位验证码" required maxlength="6">
+                    </div>
+                    <button type="button" class="captcha-btn" id="sendCaptcha">发送验证码</button>
+                </div>
+            </div>
+            
+            <div class="terms">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">我已阅读并同意<a href="#">《用户协议》</a>和<a href="#">《隐私政策》</a></label>
+            </div>
+            
+            <button type="submit" class="register-btn">立即注册</button>
+        </form>
+        
+        <div class="login-link">
+            已有账户？<a href="#" id="loginLink">立即登录</a>
+        </div>
+    </div>
+
+    <script>
+        // 返回登录页面
+        document.getElementById('backToLogin').addEventListener('click', function() {
+            alert('返回登录页面...');
+            // 在实际应用中，这里会跳转到登录页面
+        });
+        
+        // 登录链接
+        document.getElementById('loginLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('跳转到登录页面...');
+            // 在实际应用中，这里会跳转到登录页面
+        });
+        
+        // 密码强度检测
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrength');
+            let strength = 0;
+            
+            if (password.length > 7) strength += 25;
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 25;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+            
+            strengthBar.style.width = strength + '%';
+            
+            if (strength < 50) {
+                strengthBar.style.background = '#e74c3c';
+            } else if (strength < 75) {
+                strengthBar.style.background = '#f39c12';
+            } else {
+                strengthBar.style.background = '#27ae60';
+            }
+        });
+        
+        // 发送验证码功能
+        document.getElementById('sendCaptcha').addEventListener('click', function() {
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value;
+            const btn = this;
+            
+            // 验证邮箱格式
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('请输入有效的电子邮箱地址！');
+                return;
+            }
+            
+            // 禁用按钮并开始倒计时
+            btn.disabled = true;
+            let countdown = 60;
+            btn.textContent = `重新发送(${countdown}s)`;
+            
+            const timer = setInterval(function() {
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    btn.textContent = '发送验证码';
+                    btn.disabled = false;
+                } else {
+                    btn.textContent = `重新发送(${countdown}s)`;
+                    countdown--;
+                }
+            }, 1000);
+            
+            // 模拟发送验证码
+            alert(`验证码已发送至邮箱: ${email}`);
+        });
+        
+        // 表单提交处理
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const captcha = document.getElementById('captcha').value;
+            
+            // 简单验证
+            if (password !== confirmPassword) {
+                alert('两次输入的密码不一致！');
+                return;
+            }
+            
+            if (captcha.length !== 6) {
+                alert('请输入6位验证码！');
+                return;
+            }
+            
+            // 在实际应用中，这里会发送AJAX请求到服务器
+            console.log('注册信息:', {username, email, password, captcha});
+            
+            // 显示成功消息
+            alert(`注册成功！欢迎加入，${username}`);
+            
+            // 重置表单
+            this.reset();
+            document.getElementById('passwordStrength').style.width = '0%';
+        });
+    </script>
+</body>
+</html>
