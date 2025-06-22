@@ -1,2 +1,3 @@
 # CloudNote
-多功能云笔记，Java项目学习使用
+Java多功能新云笔记
+开发人员：芒吉，empty，zcc
