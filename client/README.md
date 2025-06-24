@@ -54,4 +54,4 @@ lib/
 
 ### Web端
 
-使用命令`flutter build web --wasm --release --output release/web/`构建web端，将会在`release/web/`目录下生成对应的web客户端。
+使用命令`flutter build web --wasm --release --base-href=/CloudNote/ --output release/web/`构建web端，将会在`release/web/`目录下生成对应的web客户端。
