@@ -1,6 +1,6 @@
+import 'package:client/views/widgets/clickable_text.dart' show ClickableText;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _isLoading = false;
   bool _rememberMe = false;
+  bool _autoLogin = false;
 
   void _login() async {
     if (!_formKey.currentState!.validate()) return;
@@ -39,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double contentWidth = screenWidth < 600 ? screenWidth * 0.9 : 600;
     return Scaffold(
       // backgroundColor: Color,
       body: SafeArea(
@@ -46,14 +48,17 @@ class _LoginPageState extends State<LoginPage> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: SizedBox(
-              width: screenWidth * 0.4,
+              width: contentWidth,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    '欢迎使用云笔记',
-                    style: GoogleFonts.notoSans(fontSize: 28, fontWeight: FontWeight.bold),
-                  ).animate().fadeIn().slideY(begin: -0.5),
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets/images/logo.png'), fit: BoxFit.cover),
+                    ),
+                  ).animate().fadeIn().scale(delay: 300.ms),
                   const SizedBox(height: 32),
                   Form(
                     key: _formKey,
@@ -102,14 +107,15 @@ class _LoginPageState extends State<LoginPage> {
                           setState(() => _rememberMe = value!);
                         },
                       ),
-                      const Text('记住我'),
+                      const Text('记住密码'),
                       const Spacer(),
-                      TextButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('忘记密码功能未实现')));
+                      Checkbox(
+                        value: _autoLogin,
+                        onChanged: (value) {
+                          setState(() => _autoLogin = value!);
                         },
-                        child: const Text('忘记密码？'),
                       ),
+                      const Text('自动登录'),
                     ],
                   ),
 
@@ -130,6 +136,15 @@ class _LoginPageState extends State<LoginPage> {
                       label: Text(_isLoading ? '登录中...' : '登录'),
                     ),
                   ).animate().fadeIn().scale(delay: 300.ms),
+                  const SizedBox(height: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClickableText('注册新用户'),
+                      const SizedBox(height: 8), // 控制垂直间距
+                      ClickableText('忘记密码'),
+                    ],
+                  ),
                 ],
               ),
             ),
