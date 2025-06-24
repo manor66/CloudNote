@@ -38,97 +38,100 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      // backgroundColor: Color,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '欢迎使用云笔记',
-                  style: GoogleFonts.notoSans(fontSize: 28, fontWeight: FontWeight.bold),
-                ).animate().fadeIn().slideY(begin: -0.5),
-                const SizedBox(height: 32),
+            child: SizedBox(
+              width: screenWidth * 0.4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '欢迎使用云笔记',
+                    style: GoogleFonts.notoSans(fontSize: 28, fontWeight: FontWeight.bold),
+                  ).animate().fadeIn().slideY(begin: -0.5),
+                  const SizedBox(height: 32),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _emailCtrl,
+                          decoration: const InputDecoration(
+                            labelText: '邮箱',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (val) {
+                            if (val == null || val.isEmpty) return '请输入邮箱';
+                            if (!val.contains('@')) return '邮箱格式错误';
+                            return null;
+                          },
+                        ).animate().fadeIn().slideX(begin: -0.3),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: _passwordCtrl,
+                          decoration: const InputDecoration(
+                            labelText: '密码',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.lock),
+                          ),
+                          obscureText: true,
+                          validator: (val) {
+                            if (val == null || val.isEmpty) return '请输入密码';
+                            if (val.length < 6) return '密码长度至少6位';
+                            return null;
+                          },
+                        ).animate().fadeIn().slideX(begin: 0.3),
+                      ],
+                    ),
+                  ),
 
-                Form(
-                  key: _formKey,
-                  child: Column(
+                  const SizedBox(height: 12),
+
+                  Row(
                     children: [
-                      TextFormField(
-                        controller: _emailCtrl,
-                        decoration: const InputDecoration(
-                          labelText: '邮箱',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.email),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (val) {
-                          if (val == null || val.isEmpty) return '请输入邮箱';
-                          if (!val.contains('@')) return '邮箱格式错误';
-                          return null;
+                      Checkbox(
+                        value: _rememberMe,
+                        onChanged: (value) {
+                          setState(() => _rememberMe = value!);
                         },
-                      ).animate().fadeIn().slideX(begin: -0.3),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _passwordCtrl,
-                        decoration: const InputDecoration(
-                          labelText: '密码',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.lock),
-                        ),
-                        obscureText: true,
-                        validator: (val) {
-                          if (val == null || val.isEmpty) return '请输入密码';
-                          if (val.length < 6) return '密码长度至少6位';
-                          return null;
+                      ),
+                      const Text('记住我'),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('忘记密码功能未实现')));
                         },
-                      ).animate().fadeIn().slideX(begin: 0.3),
+                        child: const Text('忘记密码？'),
+                      ),
                     ],
                   ),
-                ),
 
-                const SizedBox(height: 12),
+                  const SizedBox(height: 20),
 
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _rememberMe,
-                      onChanged: (value) {
-                        setState(() => _rememberMe = value!);
-                      },
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading ? null : _login,
+                      icon: _isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            )
+                          : const Icon(Icons.login),
+                      label: Text(_isLoading ? '登录中...' : '登录'),
                     ),
-                    const Text('记住我'),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('忘记密码功能未实现')));
-                      },
-                      child: const Text('忘记密码？'),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 20),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton.icon(
-                    onPressed: _isLoading ? null : _login,
-                    icon: _isLoading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                          )
-                        : const Icon(Icons.login),
-                    label: Text(_isLoading ? '登录中...' : '登录'),
-                  ),
-                ).animate().fadeIn().scale(delay: 300.ms),
-              ],
+                  ).animate().fadeIn().scale(delay: 300.ms),
+                ],
+              ),
             ),
           ),
         ),
