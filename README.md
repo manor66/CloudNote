@@ -123,6 +123,8 @@ Java多功能新云笔记
         "id": 21,
         "title": "第21篇笔记",
         "content": "这是笔记内容",
+        "category": "分类1",
+        "note_status": 0,
         "created_at": "2025-06-20T10:00:00Z",
         "updated_at": "2025-06-20T12:00:00Z"
       }
@@ -210,6 +212,8 @@ Java多功能新云笔记
     "id": 1,
     "title": "第一篇笔记",
     "content": "这是笔记内容",
+    "category": "分类1",
+    "note_status": 0,
     "created_at": "2025-06-20T10:00:00Z",
     "updated_at": "2025-06-20T12:00:00Z"
   }
