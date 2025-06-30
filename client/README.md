@@ -50,6 +50,16 @@ lib/
 └── routes/                       # 路由定义和跳转逻辑
 ```
 
+其中，`notes`目录下：
+```
+notes/
+├── note_list_page.dart        # 笔记列表页面
+├── note_edit_page.dart        # 编辑页面
+├── note_detail_page.dart      # 查看页面
+├── note_provider.dart         # 状态管理（保存列表、加载、增删改）
+├── note_repository.dart       # 获取笔记数据（API or 本地）
+```
+
 ## 构建
 
 ### Web端
